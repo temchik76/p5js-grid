@@ -1,7 +1,6 @@
 const GRID_SIZE = 60;
 
 let grid;
-let renderer;
 
 // cells, 1 = alive, 0 = dead
 let cells = [];

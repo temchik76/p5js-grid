@@ -1,6 +1,4 @@
 let grid;
-let headerRenderer;
-let renderer;
 
 function renderGridHeader(pos, bounds) {
   stroke(255);

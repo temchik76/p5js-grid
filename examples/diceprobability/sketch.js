@@ -1,6 +1,4 @@
 let grid;
-let headerRenderer;
-let renderer;
 
 let values = [];
 let probs = [];
