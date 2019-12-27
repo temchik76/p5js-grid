@@ -17,6 +17,10 @@ class Bounds {
     this.w = w;
     this.h = h;
   }
+  
+  center() {
+  	return createVector(floor(x + w / 2), floor(y + h / 2));
+  }
 }
 
 /**
@@ -65,6 +69,11 @@ class Grid {
     this.recalculateBounds();
   }
 
+  resize(bounds) {
+  	this.bounds = bounds;
+  	this.recalculateBounds();
+  }
+  
   recalculateBounds() {
     this.headerColCells = [];
     if (this.headerCol) {
