@@ -6,22 +6,18 @@ let renderer;
 // cells, 1 = alive, 0 = dead
 let cells = [];
 
-class Cell extends GridCellRenderer {
-  draw(col, row, bounds) {
-    //super.draw(col, row, bounds);
+function renderGridCell(col, row, bounds) {
+  let val = cell(col, row);
 
-    let val = cell(col, row);
-    
-    if (val) {
-	    fill(255);
-    } else {
-    	fill(0);
-    }
-    
-    noStroke();
-
-    rect(bounds.x + 1, bounds.y + 1, bounds.w - 1, bounds.h - 1);
+  if (val) {
+    fill(255);
+  } else {
+  	fill(0);
   }
+
+  noStroke();
+
+  rect(bounds.x + 1, bounds.y + 1, bounds.w - 1, bounds.h - 1);
 }
 
 function cell(col, row) {
@@ -70,16 +66,16 @@ function tick() {
 
 function setup() {
   createCanvas(600, 600);
-  renderer = new Cell();
 
-  grid = new Grid(GRID_SIZE, GRID_SIZE, 0, 0, new Bounds(0, 0, width, height),
-                 renderer);
+  grid = new Grid(GRID_SIZE, GRID_SIZE, 0, 0, new Bounds(0, 0, width, height), renderGridCell);
 
   cells = new Array(GRID_SIZE).fill().map(() => new Array(GRID_SIZE).fill().map(() => floor(random((0, 2)))));
 }
 
 function draw() {
   background(0);
+
   grid.draw();
+  
   tick();
 }

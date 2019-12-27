@@ -23,26 +23,16 @@ class Bounds {
   }
 }
 
-/**
- * Header renderer
- */
-class GridHeaderRenderer {
-  draw(pos, bounds) {
+var defaultRenderGridHeader = function(pos, bounds) {
     fill(128);
     stroke(255);
     rect(bounds.x, bounds.y, bounds.w, bounds.h);
-  }
 }
 
-/**
- * Data cell renderer
- */
-class GridCellRenderer {
-  draw(col, row, bounds) {
+var defaultRenderGridCell = function(col, row, bounds) {
     noFill();
     stroke(255);
     rect(bounds.x, bounds.y, bounds.w, bounds.h);
-  }
 }
 
 /**
@@ -50,18 +40,18 @@ class GridCellRenderer {
  */
 class Grid {
   constructor(cols, rows, headerCol, headerRow, bounds, 
-               cellRenderer, headerColRenderer, headerRowRenderer) {
+               renderGridCell, renderColHeader, renderRowHeader) {
     this.cols = cols;
     this.rows = rows;
 
-    this.headerCol = headerCol ? 1 : 0;
-    this.headerRow = headerRow ? 1 : 0;
+    this.headerCol = headerCol || 0;
+    this.headerRow = headerRow || 0;
 
     this.bounds = bounds;
 
-    this.cellRenderer = cellRenderer;
-    this.headerColRenderer = headerColRenderer;
-    this.headerRowRenderer = headerRowRenderer;
+    this.renderGridCell = renderGridCell || defaultRenderGridCell;
+    this.renderColHeader = renderColHeader || defaultRenderGridHeader;
+    this.renderRowHeader = renderRowHeader || defaultRenderGridHeader;
     
     this.cellWidth = Math.floor(this.bounds.w / (this.cols + this.headerCol));
     this.cellHeight = Math.floor(this.bounds.h / (this.rows + this.headerRow));
@@ -107,17 +97,17 @@ class Grid {
 
   draw() {
     for (let col = 0; col < this.headerRowCells.length; col++) {
-      this.headerRowRenderer.draw(col, this.headerRowCells[col]);
+      this.renderRowHeader(col, this.headerRowCells[col]);
     }
 
     for (let row = 0; row < this.headerColCells.length; row++) {
-      this.headerColRenderer.draw(row, this.headerColCells[row]);
+      this.renderColHeader(row, this.headerColCells[row]);
     }
 
 
     for (let col = 0; col < this.cols; col++) {
       for (let row = 0; row < this.rows; row++) {
-        this.cellRenderer.draw(col, row, this.cells[col][row]);
+        this.renderGridCell(col, row, this.cells[col][row]);
       }
     }
   }
