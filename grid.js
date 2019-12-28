@@ -45,8 +45,8 @@ class Grid {
     this.headerRow = drawHeaderRow ? 1 : 0;
     this.headerCol = drawHeaderCol ? 1 : 0;
 
-    this.cellWidth = Math.floor(this.bounds.w / (this.cols + this.headerCol));
-    this.cellHeight = Math.floor(this.bounds.h / (this.rows + this.headerRow));
+    this.cellWidth = floor(this.bounds.w / (this.cols + this.headerCol));
+    this.cellHeight = floor(this.bounds.h / (this.rows + this.headerRow));
 
     this.recalculateBounds();
   }
