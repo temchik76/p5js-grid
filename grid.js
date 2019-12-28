@@ -18,6 +18,10 @@ class Bounds {
     this.h = h;
   }
   
+  contains(x, y) {
+  	return x >= this.x && y >= this.y && x < this.x + this.w && y < this.y + this.h;
+  }
+  
   center() {
   	return createVector(floor(x + w / 2), floor(y + h / 2));
   }
@@ -32,15 +36,15 @@ class Grid {
     this.cols = cols;
     this.rows = rows;
 
-    this.headerRow = drawHeaderRow ? 1 : 0;
-    this.headerCol = drawHeaderCol ? 1 : 0;
-
     this.bounds = bounds;
 
     this.drawGridCell = drawGridCell;
     this.drawHeaderRow = drawHeaderRow;
     this.drawHeaderCol = drawHeaderCol;
     
+    this.headerRow = drawHeaderRow ? 1 : 0;
+    this.headerCol = drawHeaderCol ? 1 : 0;
+
     this.cellWidth = Math.floor(this.bounds.w / (this.cols + this.headerCol));
     this.cellHeight = Math.floor(this.bounds.h / (this.rows + this.headerRow));
 
@@ -55,32 +59,32 @@ class Grid {
   recalculateBounds() {
     this.headerColCells = [];
     if (this.headerCol) {
-      for (let row = this.headerRow; row < this.rows + this.headerRow; row++) {
-        this.headerColCells[row - this.headerRow] = this.cellBounds(0, row);
+      for (let row = 0; row < this.rows; row++) {
+        this.headerColCells[row] = this.cellBounds(0, row + this.headerRow);
       }
     }
 
     this.headerRowCells = [];
     if (this.headerRow) {
-      for (let col = this.headerCol; col < this.cols + this.headerCol; col++) {
-        this.headerRowCells[col - this.headerCol] = this.cellBounds(col, 0);
+      for (let col = 0; col < this.cols; col++) {
+        this.headerRowCells[col] = this.cellBounds(col + this.headerCol, 0);
       }
     }
 
     this.cells = [];
-    for (let col = this.headerCol; col < this.cols + this.headerCol; col++) {
-      this.cells[col - this.headerCol] = [];
-      for (let row = this.headerRow; row < this.rows + this.headerRow; row++) {
-        this.cells[col - this.headerCol][row - this.headerRow] = this.cellBounds(col, row);
+    for (let col = 0; col < this.cols; col++) {
+      this.cells[col] = [];
+      for (let row = 0; row < this.rows; row++) {
+        this.cells[col][row] = this.cellBounds(col + this.headerCol, row + this.headerRow);
       }
     }
   }
 
   cellBounds(col, row) {
-    return new Bounds(col * this.cellWidth,
-      row * this.cellHeight,
-      this.cellWidth,
-      this.cellHeight);
+    return new Bounds(this.bounds.x + col * this.cellWidth,
+      				  this.bounds.y + row * this.cellHeight,
+      				  this.cellWidth,
+      				  this.cellHeight);
   }
 
   draw() {
