@@ -2,7 +2,7 @@
  * grid.js
  * Grid for p5js
  *
- * @version 0.0.3
+ * @version 0.0.4
  * @author temchik76
  * @url https://github.com/temchik76/p5js-grid-js
  */
@@ -23,35 +23,23 @@ class Bounds {
   }
 }
 
-var defaultRenderGridHeader = function(pos, bounds) {
-    fill(128);
-    stroke(255);
-    rect(bounds.x, bounds.y, bounds.w, bounds.h);
-}
-
-var defaultRenderGridCell = function(col, row, bounds) {
-    noFill();
-    stroke(255);
-    rect(bounds.x, bounds.y, bounds.w, bounds.h);
-}
-
 /**
  * Grid
  */
 class Grid {
-  constructor(cols, rows, headerCol, headerRow, bounds, 
-               renderGridCell, renderColHeader, renderRowHeader) {
+  constructor(cols, rows, bounds, 
+               drawGridCell, drawHeaderRow, drawHeaderCol) {
     this.cols = cols;
     this.rows = rows;
 
-    this.headerCol = headerCol || 0;
-    this.headerRow = headerRow || 0;
+    this.headerRow = drawHeaderRow ? 1 : 0;
+    this.headerCol = drawHeaderCol ? 1 : 0;
 
     this.bounds = bounds;
 
-    this.renderGridCell = renderGridCell || defaultRenderGridCell;
-    this.renderColHeader = renderColHeader || defaultRenderGridHeader;
-    this.renderRowHeader = renderRowHeader || defaultRenderGridHeader;
+    this.drawGridCell = drawGridCell;
+    this.drawHeaderRow = drawHeaderRow;
+    this.drawHeaderCol = drawHeaderCol;
     
     this.cellWidth = Math.floor(this.bounds.w / (this.cols + this.headerCol));
     this.cellHeight = Math.floor(this.bounds.h / (this.rows + this.headerRow));
@@ -97,17 +85,16 @@ class Grid {
 
   draw() {
     for (let col = 0; col < this.headerRowCells.length; col++) {
-      this.renderRowHeader(col, this.headerRowCells[col]);
+      this.drawHeaderRow(col, this.headerRowCells[col]);
     }
 
     for (let row = 0; row < this.headerColCells.length; row++) {
-      this.renderColHeader(row, this.headerColCells[row]);
+      this.drawHeaderCol(row, this.headerColCells[row]);
     }
-
 
     for (let col = 0; col < this.cols; col++) {
       for (let row = 0; row < this.rows; row++) {
-        this.renderGridCell(col, row, this.cells[col][row]);
+        this.drawGridCell(col, row, this.cells[col][row]);
       }
     }
   }
