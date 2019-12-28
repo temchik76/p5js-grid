@@ -18,10 +18,16 @@ class Bounds {
     this.h = h;
   }
   
+  /**
+   * is (x, y) inside this rectangle?
+   */
   contains(x, y) {
   	return x >= this.x && y >= this.y && x < this.x + this.w && y < this.y + this.h;
   }
   
+  /**
+   * center of the rectangle
+   */
   center() {
   	return createVector(floor(x + w / 2), floor(y + h / 2));
   }
@@ -31,8 +37,16 @@ class Bounds {
  * Grid
  */
 class Grid {
-  constructor(cols, rows, bounds, 
-               drawGridCell, drawHeaderRow, drawHeaderCol) {
+  /**
+   * @param cols number of columns
+   * @param rows number of rows
+   * @param bounds Bounds rectangle of the grid
+   * @param drawGridCell function to draw the grid cells, takes (col, row, bounds) parameters
+   * @param drawHeaderRow function to draw the grid header row, takes (pos, bounds) parameters. If unspecified no header row is shown
+   * @param drawHeaderCol function to draw the grid header column, takes (pos, bounds) parameters. If unspecified no header column is shown
+   */
+  constructor(cols, rows, bounds /* Bounds */, 
+              drawGridCell /* function(col, row, bounds) */, drawHeaderRow /* function(pos, bounds) */, drawHeaderCol /* function(pos, bounds) */) {
     this.cols = cols;
     this.rows = rows;
 
@@ -51,11 +65,17 @@ class Grid {
     this.recalculateBounds();
   }
 
+  /**
+   * Move/Resize and recalculate
+   */
   resize(bounds) {
   	this.bounds = bounds;
   	this.recalculateBounds();
   }
   
+  /**
+   * Calculate bounds of each cell and headers
+   */
   recalculateBounds() {
     this.headerColCells = [];
     if (this.headerCol) {
@@ -80,6 +100,9 @@ class Grid {
     }
   }
 
+  /**
+   * Calculate cell bounds of a col/row (absolute, including headers)
+   */
   cellBounds(col, row) {
     return new Bounds(this.bounds.x + col * this.cellWidth,
       				  this.bounds.y + row * this.cellHeight,
@@ -87,6 +110,9 @@ class Grid {
       				  this.cellHeight);
   }
 
+  /**
+   * Draw the grid
+   */
   draw() {
     for (let col = 0; col < this.headerRowCells.length; col++) {
       this.drawHeaderRow(col, this.headerRowCells[col]);
