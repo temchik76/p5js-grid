@@ -2,7 +2,7 @@
  * grid.js
  * Grid for p5js
  *
- * @version 0.0.5
+ * @version 1.0.0
  * @author temchik76
  * @url https://github.com/temchik76/p5js-grid-js
  */
