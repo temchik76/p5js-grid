@@ -3,7 +3,7 @@
 Include grid.js in your sketch html file
 
 ```
-<script src="https://cdn.jsdelivr.net/gh/temchik76/p5js-grid@1.0.0/grid.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/temchik76/p5js-grid@1.0.1/grid.js"></script>
 ```
 
 define cell and (optionally) headers draw functions
