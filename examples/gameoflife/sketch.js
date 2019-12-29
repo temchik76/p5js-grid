@@ -1,6 +1,8 @@
+/// <reference path="../../node_modules/@types/p5/global.d.ts"/>
+
 const GRID_SIZE = 60;
 
-let grid;
+var grid;
 
 // cells, 1 = alive, 0 = dead
 let cells = [];
@@ -41,9 +43,10 @@ function neighbors(col, row) {
 
 // one tick of GOL
 function tick() {
-   let newcells = new Array(GRID_SIZE).fill().map(() => new Array(GRID_SIZE).fill(0));
+   let newcells = new Array(GRID_SIZE).fill(undefined).map(() => new Array(GRID_SIZE).fill(0));
+
    for (let col = 0; col < GRID_SIZE; col++) {
-	 for (let row = 0; row < GRID_SIZE; row++) {
+	  for (let row = 0; row < GRID_SIZE; row++) {
 	   // calculate all alive cells in and around this one
 	   let neighborhood = neighbors(col, row);
 	   
@@ -54,10 +57,10 @@ function tick() {
 	     newcells[col][row] = 1;
 	   } else if (neighborhood == 4) {
 	     newcells[col][row] = cells[col][row];
-	   } else {
+	   } /*else {
 	     newcells[col][row] = 0;
-	   }
-	 }
+     }*/
+    }
    }
    
    cells = newcells;
@@ -68,7 +71,8 @@ function setup() {
 
   grid = new Grid(GRID_SIZE, GRID_SIZE, new Bounds(0, 0, width, height), drawGridCell);
 
-  cells = new Array(GRID_SIZE).fill().map(() => new Array(GRID_SIZE).fill().map(() => floor(random((0, 2)))));
+  cells = new Array(GRID_SIZE).fill(undefined).map(() => new Array(GRID_SIZE).fill(undefined).map(() => 
+              floor(random((2)))));
 }
 
 function draw() {

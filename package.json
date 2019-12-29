@@ -1,0 +1,24 @@
+{
+  "name": "p5js-grid",
+  "version": "1.0.0",
+  "description": "Include grid.js in your sketch html file",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/temchik76/p5js-grid.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/temchik76/p5js-grid/issues"
+  },
+  "homepage": "https://github.com/temchik76/p5js-grid#readme",
+  "devDependencies": {
+    "@types/p5": "^0.9.0"
+  }
+}

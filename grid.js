@@ -4,8 +4,10 @@
  *
  * @version 1.0.0
  * @author temchik76
- * @url https://github.com/temchik76/p5js-grid-js
+ * @url https://github.com/temchik76/p5js-grid
  */
+
+/// <reference path="node_modules/@types/p5/global.d.ts"/>
 
 /**
  * Generic rectangle bounds class
@@ -29,7 +31,7 @@ class Bounds {
    * center of the rectangle
    */
   center() {
-  	return createVector(floor(x + w / 2), floor(y + h / 2));
+  	return createVector(floor(this.x + this.w / 2), floor(this.y + this.h / 2));
   }
 }
 
@@ -46,7 +48,8 @@ class Grid {
    * @param drawHeaderCol function to draw the grid header column, takes (pos, bounds) parameters. If unspecified no header column is shown
    */
   constructor(cols, rows, bounds /* Bounds */, 
-              drawGridCell /* function(col, row, bounds) */, drawHeaderRow /* function(pos, bounds) */, drawHeaderCol /* function(pos, bounds) */) {
+              drawGridCell /* function(col, row, bounds) */, 
+              drawHeaderRow = undefined/* function(pos, bounds) */, drawHeaderCol = undefined /* function(pos, bounds) */) {
     this.cols = cols;
     this.rows = rows;
 

@@ -1,4 +1,6 @@
-let grid;
+/// <reference path="../../node_modules/@types/p5/global.d.ts"/>
+
+var grid;
 
 function drawGridCell(col, row, bounds) {
   noFill();
