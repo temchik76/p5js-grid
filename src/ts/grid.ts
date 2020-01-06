@@ -31,21 +31,14 @@ class Bounds {
 }
 
 /**
- * Grid cell
+ * private Grid cell class
  */
 class _GridCell {
   constructor(readonly col: number, readonly row: number, public bounds: Bounds = null) {}
 
-  isHeaderCorner(): boolean {
-    return this.col == -1 && this.row == -1;
-  }
-
-  isHeaderCol(): boolean {
-    return this.col == -1;
-  }
-
-  isHeaderRow(): boolean {
-    return this.row == -1;
+  // TODO: not sure about this
+  isHeader(): boolean {
+    return this.col == -1 || this.row == -1;
   }
 }
 
@@ -59,6 +52,7 @@ class Grid {
   private cellHeight: number;
   private cells: _GridCell[][];
   private eventHandlers: Map<string, Function>;
+  private mouseIn: _GridCell;
 
   /**
    * @param cols number of columns
@@ -80,14 +74,6 @@ class Grid {
 
     this.initCells();
     this.recalculateBounds();
-  }
-
-  private rowAt(y: number): number {
-    return floor((this.bounds.y + y) / this.cellHeight);
-  }
-
-  private cellAt(x: number, y: number): _GridCell {
-    return this.bounds.contains(x, y) ? this.cells[this.colAt(x)][this.rowAt(y)] : undefined;
   }
 
   /**
@@ -141,15 +127,7 @@ class Grid {
     for (let col: number = 0; col < this.cols + this.headerCol; col++) {
       for (let row: number = 0; row < this.rows + this.headerRow; row++) {
         let cell = this.cells[col][row];
-        if (cell.isHeaderCorner()) {
-          this.fireEvent('drawHeaderCorner', cell.bounds);
-        } else if (cell.isHeaderCol()) {
-          this.fireEvent('drawHeaderCol', cell.row, cell.bounds);
-        } else if (cell.isHeaderRow()) {
-          this.fireEvent('drawHeaderRow', cell.col, cell.bounds);
-        } else {
-          this.fireEvent('drawCell', cell.col, cell.row, cell.bounds);
-        }
+        this.fireEvent('draw', cell.col, cell.row, cell.bounds);
       }
     }
 
@@ -158,16 +136,25 @@ class Grid {
 
   mouseClicked() {
     if (this.bounds.contains(mouseX, mouseY)) {
-      //this.fireEvent('click')
+      let cell = this.cellAt(mouseX, mouseY);
+
+      this.fireEvent('click', cell.col, cell.row);
     } 
   }
   
   mouseMoved() {
-    if (this.bounds.contains(mouseX, mouseY)) {
-      //this.fireEvent('click')
-    } 
+    if (this.mouseIn && !this.mouseIn.bounds.contains(mouseX, mouseY)) {
+      this.fireEvent('mouseOut', this.mouseIn.col, this.mouseIn.row);
+      this.mouseIn = null;
+    }
+  
+    if (this.bounds.contains(mouseX, mouseY) && !this.mouseIn) {
+      this.mouseIn = this.cellAt(mouseX, mouseY);
+      this.fireEvent('mouseIn', this.mouseIn.col, this.mouseIn.row);
+    }
   }
   
+  /*
   mousePressed() {
     if (this.bounds.contains(mouseX, mouseY)) {
       //this.fireEvent('click')
@@ -182,9 +169,18 @@ class Grid {
   
   mouseDragged() {
   }
+  */
 
   private colAt(x: number): number {
     return floor((this.bounds.x + x) / this.cellWidth);
+  }
+
+  private rowAt(y: number): number {
+    return floor((this.bounds.y + y) / this.cellHeight);
+  }
+
+  private cellAt(x: number, y: number): _GridCell {
+    return this.bounds.contains(x, y) ? this.cells[this.colAt(x)][this.rowAt(y)] : undefined;
   }
 
   on(evt: string, fn: Function): Grid {

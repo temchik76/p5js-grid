@@ -31,7 +31,7 @@ class Bounds {
     }
 }
 /**
- * Grid cell
+ * private Grid cell class
  */
 class _GridCell {
     constructor(col, row, bounds = null) {
@@ -39,14 +39,9 @@ class _GridCell {
         this.row = row;
         this.bounds = bounds;
     }
-    isHeaderCorner() {
-        return this.col == -1 && this.row == -1;
-    }
-    isHeaderCol() {
-        return this.col == -1;
-    }
-    isHeaderRow() {
-        return this.row == -1;
+    // TODO: not sure about this
+    isHeader() {
+        return this.col == -1 || this.row == -1;
     }
 }
 /**
@@ -73,12 +68,6 @@ class Grid {
         this.eventHandlers = new Map();
         this.initCells();
         this.recalculateBounds();
-    }
-    rowAt(y) {
-        return floor((this.bounds.y + y) / this.cellHeight);
-    }
-    cellAt(x, y) {
-        return this.bounds.contains(x, y) ? this.cells[this.colAt(x)][this.rowAt(y)] : undefined;
     }
     /**
      * Initialize cells array
@@ -123,46 +112,51 @@ class Grid {
         for (let col = 0; col < this.cols + this.headerCol; col++) {
             for (let row = 0; row < this.rows + this.headerRow; row++) {
                 let cell = this.cells[col][row];
-                if (cell.isHeaderCorner()) {
-                    this.fireEvent('drawHeaderCorner', cell.bounds);
-                }
-                else if (cell.isHeaderCol()) {
-                    this.fireEvent('drawHeaderCol', cell.row, cell.bounds);
-                }
-                else if (cell.isHeaderRow()) {
-                    this.fireEvent('drawHeaderRow', cell.col, cell.bounds);
-                }
-                else {
-                    this.fireEvent('drawCell', cell.col, cell.row, cell.bounds);
-                }
+                this.fireEvent('draw', cell.col, cell.row, cell.bounds);
             }
         }
         this.fireEvent('afterDraw');
     }
     mouseClicked() {
         if (this.bounds.contains(mouseX, mouseY)) {
-            //this.fireEvent('click')
+            let cell = this.cellAt(mouseX, mouseY);
+            this.fireEvent('click', cell.col, cell.row);
         }
     }
     mouseMoved() {
-        if (this.bounds.contains(mouseX, mouseY)) {
-            //this.fireEvent('click')
+        if (this.mouseIn && !this.mouseIn.bounds.contains(mouseX, mouseY)) {
+            this.fireEvent('mouseOut', this.mouseIn.col, this.mouseIn.row);
+            this.mouseIn = null;
+        }
+        if (this.bounds.contains(mouseX, mouseY) && !this.mouseIn) {
+            this.mouseIn = this.cellAt(mouseX, mouseY);
+            this.fireEvent('mouseIn', this.mouseIn.col, this.mouseIn.row);
         }
     }
+    /*
     mousePressed() {
-        if (this.bounds.contains(mouseX, mouseY)) {
-            //this.fireEvent('click')
-        }
+      if (this.bounds.contains(mouseX, mouseY)) {
+        //this.fireEvent('click')
+      }
     }
+    
     mouseReleased() {
-        if (this.bounds.contains(mouseX, mouseY)) {
-            //this.fireEvent('click')
-        }
+      if (this.bounds.contains(mouseX, mouseY)) {
+        //this.fireEvent('click')
+      }
     }
+    
     mouseDragged() {
     }
+    */
     colAt(x) {
         return floor((this.bounds.x + x) / this.cellWidth);
+    }
+    rowAt(y) {
+        return floor((this.bounds.y + y) / this.cellHeight);
+    }
+    cellAt(x, y) {
+        return this.bounds.contains(x, y) ? this.cells[this.colAt(x)][this.rowAt(y)] : undefined;
     }
     on(evt, fn) {
         this.eventHandlers.set(evt, fn);
