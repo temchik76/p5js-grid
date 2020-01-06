@@ -3,36 +3,30 @@
 Include grid.js in your sketch html file
 
 ```
-<script src="https://cdn.jsdelivr.net/gh/temchik76/p5js-grid@1.0.1/grid.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/temchik76/p5js-grid@2.0.0/dist/grid.js"></script>
 ```
 
-define cell and (optionally) headers draw functions
+define cell and register event handlers
 
-```
-function drawHeaderRow(pos, bounds) {
-}
-```
-
-```
-function drawHeaderCol(pos, bounds) {
-}
-```
-
-```
-function drawCell(col, row, bounds) {
-}
-```
-
-create the grid in `setup()` passing the draw functions. Omitting header draw functions will disable header row/column
+create the grid in `setup()`
 
 ```
 let grid;
 
+function drawCell(col, row, bounds) {
+  // if you enabled headers then corresponding col / row will be -1 for headers  
+}
+
+function cellClicked(col, row) {
+  
+}
+
 function setup() {
   ...
-  grid = new Grid(6, 6, new Bounds(0, 0, width, height),
-                 drawCell, drawHeaderRow, drawHeaderCol);
-  ...
+  grid = new Grid(6 /*columns*/, 6 /* rows */, new Bounds(0, 0, width, height), true /*enable header row*/, true /*enable header column*/)
+            .on('draw', drawCell)
+            .on('mouseClick', cellClicked);
+   ...
 }
 ```
 

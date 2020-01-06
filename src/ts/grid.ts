@@ -56,7 +56,7 @@ class Grid {
    * @param enableHeaderRow grid has header row?
    * @param enableHeaderCol grid has header col?
    */
-  constructor(readonly cols: number, readonly rows: number, public bounds: Bounds, 
+  constructor(readonly cols: number, readonly rows: number, private bounds: Bounds, 
               readonly enableHeaderRow: boolean = false,
               readonly enableHeaderCol: boolean = false) {
     this.headerRow = enableHeaderRow ? 1 : 0;
