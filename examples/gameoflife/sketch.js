@@ -71,7 +71,7 @@ function setup() {
   createCanvas(600, 600);
 
   grid = new Grid(GRID_SIZE, GRID_SIZE, new Bounds(0, 0, width, height))
-    .on('drawCell', drawGridCell);
+    .on('draw', drawGridCell);
 
   cells = new Array(GRID_SIZE).fill(undefined).map(() => new Array(GRID_SIZE).fill(undefined).map(() => 
               floor(random((2)))));

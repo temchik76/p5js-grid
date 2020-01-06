@@ -50,7 +50,7 @@ function setup() {
   createCanvas(420, 420);
 
   grid = new Grid(6, 6, new Bounds(0, 0, 120, 120))
-    .on('drawCell', drawGridCell);
+    .on('draw', drawGridCell);
 }
 
 function draw() {

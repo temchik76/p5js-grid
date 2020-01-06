@@ -35,11 +35,6 @@ class Bounds {
  */
 class _GridCell {
   constructor(readonly col: number, readonly row: number, public bounds: Bounds = null) {}
-
-  // TODO: not sure about this
-  isHeader(): boolean {
-    return this.col == -1 || this.row == -1;
-  }
 }
 
 /**
@@ -138,7 +133,7 @@ class Grid {
     if (this.bounds.contains(mouseX, mouseY)) {
       let cell = this.cellAt(mouseX, mouseY);
 
-      this.fireEvent('click', cell.col, cell.row);
+      this.fireEvent('mouseClick', cell.col, cell.row);
     } 
   }
   
@@ -154,23 +149,22 @@ class Grid {
     }
   }
   
-  /*
   mousePressed() {
     if (this.bounds.contains(mouseX, mouseY)) {
-      //this.fireEvent('click')
+      let cell = this.cellAt(mouseX, mouseY);
+
+      this.fireEvent('mousePress', cell.col, cell.row);
     } 
   }
   
   mouseReleased() {
     if (this.bounds.contains(mouseX, mouseY)) {
-      //this.fireEvent('click')
+      let cell = this.cellAt(mouseX, mouseY);
+
+      this.fireEvent('mouseRelease', cell.col, cell.row);
     } 
   }
   
-  mouseDragged() {
-  }
-  */
-
   private colAt(x: number): number {
     return floor((this.bounds.x + x) / this.cellWidth);
   }

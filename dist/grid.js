@@ -39,10 +39,6 @@ class _GridCell {
         this.row = row;
         this.bounds = bounds;
     }
-    // TODO: not sure about this
-    isHeader() {
-        return this.col == -1 || this.row == -1;
-    }
 }
 /**
  * Grid
@@ -120,7 +116,7 @@ class Grid {
     mouseClicked() {
         if (this.bounds.contains(mouseX, mouseY)) {
             let cell = this.cellAt(mouseX, mouseY);
-            this.fireEvent('click', cell.col, cell.row);
+            this.fireEvent('mouseClick', cell.col, cell.row);
         }
     }
     mouseMoved() {
@@ -133,22 +129,18 @@ class Grid {
             this.fireEvent('mouseIn', this.mouseIn.col, this.mouseIn.row);
         }
     }
-    /*
     mousePressed() {
-      if (this.bounds.contains(mouseX, mouseY)) {
-        //this.fireEvent('click')
-      }
+        if (this.bounds.contains(mouseX, mouseY)) {
+            let cell = this.cellAt(mouseX, mouseY);
+            this.fireEvent('mousePress', cell.col, cell.row);
+        }
     }
-    
     mouseReleased() {
-      if (this.bounds.contains(mouseX, mouseY)) {
-        //this.fireEvent('click')
-      }
+        if (this.bounds.contains(mouseX, mouseY)) {
+            let cell = this.cellAt(mouseX, mouseY);
+            this.fireEvent('mouseRelease', cell.col, cell.row);
+        }
     }
-    
-    mouseDragged() {
-    }
-    */
     colAt(x) {
         return floor((this.bounds.x + x) / this.cellWidth);
     }
