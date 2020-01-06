@@ -1,4 +1,5 @@
 /// <reference path="../../node_modules/@types/p5/global.d.ts"/>
+/// <reference path="../../src/ts/grid.ts"/>
 
 var grid;
 
@@ -42,8 +43,10 @@ function drawGridCell(col, row, bounds) {
 function setup() {
   createCanvas(420, 420);
 
-  grid = new Grid(6, 6, new Bounds(0, 0, width, height),
-                 drawGridCell, drawGridHeader, drawGridHeader);
+  grid = new Grid(6, 6, new Bounds(0, 0, width, height), true, true)
+    .on('drawHeaderCol', drawGridHeader)
+    .on('drawHeaderRow', drawGridHeader)
+    .on('drawCell', drawGridCell);
 
   values = new Array(12).fill(0);
   probs = new Array(12).fill(0);
