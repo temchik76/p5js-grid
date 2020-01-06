@@ -1,6 +1,21 @@
 /// <reference path="../../node_modules/@types/p5/global.d.ts"/>
+/// <reference path="../../src/ts/grid.ts"/>
 
 var grid;
+
+function setup() {
+  createCanvas(420, 420);
+
+  grid = new Grid(6, 6, new Bounds(0, 0, width, height), true, true)
+      .on('drawHeaderCol', drawGridHeader)
+      .on('drawHeaderRow', drawGridHeader)
+      .on('drawCell', drawGridCell);
+}
+
+function draw() {
+  background(0);
+  grid.draw();
+}
 
 function drawGridHeader(pos, bounds) {
   stroke(255);
@@ -18,16 +33,4 @@ function drawGridCell(col, row, bounds) {
   noStroke();
   fill(random(255), random(255), random(255));
   rect(bounds.x, bounds.y, bounds.w, bounds.h);
-}
-
-function setup() {
-  createCanvas(420, 420);
-
-  grid = new Grid(6, 6, new Bounds(0, 0, width, height),
-                 drawGridCell, drawGridHeader, drawGridHeader);
-}
-
-function draw() {
-  background(0);
-  grid.draw();
 }

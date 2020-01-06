@@ -6,6 +6,7 @@
     "example": "examples"
   },
   "scripts": {
+    "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/temchik76/p5js-grid#readme",
   "devDependencies": {
-    "@types/p5": "^0.9.0"
+    "@types/p5": "^0.9.0",
+    "typescript": "^3.7.4"
   }
 }
