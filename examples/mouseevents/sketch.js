@@ -16,7 +16,7 @@ function setup() {
       .on('mouseOut', function(col, row) {
         highlighted = null;
       })
-      .on('mouseClick', function(col, row) {
+      .on('mouseClicked', function(col, row) {
         if (selected && selected.col == col && selected.row == row) {
           selected = null;
         } else {

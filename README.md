@@ -6,7 +6,7 @@ Include grid.js in your sketch html file
 <script src="https://cdn.jsdelivr.net/gh/temchik76/p5js-grid@2.0.0/dist/grid.js"></script>
 ```
 
-define cell and register event handlers
+define functions and register event handlers
 
 create the grid in `setup()`
 
@@ -39,5 +39,31 @@ function draw() {
   ...
 }
 ```
+
+in order to receive cell mouse event you need to call the corrsponding functions from your sketch:
+
+```
+function cellClicked(col, row) {
+}
+
+function setup() {
+  ...
+  grid.on('mouseClick', cellClicked);
+  ...
+}
+
+function mouseClicked() {
+  grid.mouseClicked();
+}
+```
+
+Events
+
+- `draw`: `(col, row, bounds)`
+- `mouseClicked`: `(col, row)`
+- `mouseIn`: `(col, row)`
+- `mouseOut`: `(col, row)`
+- `mousePressed`: `(col, row)`
+- `mouseReleased`: `(col, row)`
 
 see examples
