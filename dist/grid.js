@@ -75,7 +75,7 @@ var Grid = /** @class */ (function () {
         }
     };
     /**
-     * Call this from p5 mouseClicked() if you want to receive mouseIn/mouseOut cell events
+     * Call this from p5 mouseMoved() if you want to receive mouseIn/mouseOut cell events
      */
     Grid.prototype.mouseMoved = function () {
         if (this.mouseIn && !this.mouseIn.bounds.contains(mouseX, mouseY)) {
@@ -88,7 +88,7 @@ var Grid = /** @class */ (function () {
         }
     };
     /**
-     * Call this from p5 mouseClicked() if you want to receive mousePress cell events
+     * Call this from p5 mousePressed() if you want to receive mousePress cell events
      */
     Grid.prototype.mousePressed = function () {
         if (this.bounds.contains(mouseX, mouseY)) {
@@ -97,7 +97,7 @@ var Grid = /** @class */ (function () {
         }
     };
     /**
-     * Call this from p5 mouseClicked() if you want to receive mouseRelease cell events
+     * Call this from p5 mouseReleased() if you want to receive mouseRelease cell events
      */
     Grid.prototype.mouseReleased = function () {
         if (this.bounds.contains(mouseX, mouseY)) {
