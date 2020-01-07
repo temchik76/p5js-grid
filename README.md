@@ -48,7 +48,7 @@ function cellClicked(col, row) {
 
 function setup() {
   ...
-  grid.on('mouseClick', cellClicked);
+  grid.on('mouseClicked', cellClicked);
   ...
 }
 
