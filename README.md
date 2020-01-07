@@ -35,7 +35,7 @@ function draw() {
 }
 ```
 
-in order to receive cell mouse event you need to call the corrsponding functions from your sketch:
+in order to receive cell mouse event you need to call the corresponding functions from your sketch:
 
 ```
 function cellClicked(col, row) {
@@ -54,9 +54,9 @@ function mouseClicked() {
 
 Events
 
-- `draw`: `(col, row, bounds)`
-- `beforeDraw`
-- `afterDraw`
+- `draw`: `(col, row, bounds)` - called for each cell, including headers
+- `beforeDraw` - called before drawing any cells
+- `afterDraw` - called after drawing all cells
 - `mouseClicked`: `(col, row)`
 - `mouseIn`: `(col, row)`
 - `mouseOut`: `(col, row)`

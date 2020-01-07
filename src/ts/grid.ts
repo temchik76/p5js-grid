@@ -90,7 +90,7 @@ class Grid {
   }
   
   /**
-   * Call this from p5 mouseClicked() if you want to receive mouseIn/mouseOut cell events 
+   * Call this from p5 mouseMoved() if you want to receive mouseIn/mouseOut cell events 
    */
   mouseMoved() {
     if (this.mouseIn && !this.mouseIn.bounds.contains(mouseX, mouseY)) {
@@ -105,7 +105,7 @@ class Grid {
   }
   
   /**
-   * Call this from p5 mouseClicked() if you want to receive mousePress cell events 
+   * Call this from p5 mousePressed() if you want to receive mousePress cell events 
    */
   mousePressed() {
     if (this.bounds.contains(mouseX, mouseY)) {
@@ -116,7 +116,7 @@ class Grid {
   }
   
   /**
-   * Call this from p5 mouseClicked() if you want to receive mouseRelease cell events 
+   * Call this from p5 mouseReleased() if you want to receive mouseRelease cell events 
    */
   mouseReleased() {
     if (this.bounds.contains(mouseX, mouseY)) {
