@@ -10,7 +10,7 @@
 /**
  * Grid
  */
-class Grid {
+var Grid = /** @class */ (function () {
     /**
      * @param cols number of columns
      * @param rows number of rows
@@ -18,7 +18,9 @@ class Grid {
      * @param enableHeaderRow grid has header row?
      * @param enableHeaderCol grid has header col?
      */
-    constructor(cols, rows, bounds, enableHeaderRow = false, enableHeaderCol = false) {
+    function Grid(cols, rows, bounds, enableHeaderRow, enableHeaderCol) {
+        if (enableHeaderRow === void 0) { enableHeaderRow = false; }
+        if (enableHeaderCol === void 0) { enableHeaderCol = false; }
         this.cols = cols;
         this.rows = rows;
         this.bounds = bounds;
@@ -29,7 +31,7 @@ class Grid {
         this.headerCol = enableHeaderCol ? 1 : 0;
         this.cellWidth = floor(this.bounds.w / (this.cols + this.headerCol));
         this.cellHeight = floor(this.bounds.h / (this.rows + this.headerRow));
-        this.eventHandlers = new Map();
+        this.eventHandlers = {};
         this.initCells();
         this.recalculateBounds();
     }
@@ -39,43 +41,43 @@ class Grid {
      * @param evt event code
      * @param fn function
      */
-    on(evt, fn) {
-        this.eventHandlers.set(evt, fn);
+    Grid.prototype.on = function (evt, fn) {
+        this.eventHandlers[evt] = fn;
         return this;
-    }
+    };
     /**
      * Move/Resize and recalculate
      */
-    resize(bounds) {
+    Grid.prototype.resize = function (bounds) {
         this.bounds = bounds;
         this.recalculateBounds();
-    }
+    };
     /**
      * Draw the grid
      */
-    draw() {
+    Grid.prototype.draw = function () {
         this.fireEvent('beforeDraw');
-        for (let col = 0; col < this.cols + this.headerCol; col++) {
-            for (let row = 0; row < this.rows + this.headerRow; row++) {
-                let cell = this.cells[col][row];
+        for (var col = 0; col < this.cols + this.headerCol; col++) {
+            for (var row = 0; row < this.rows + this.headerRow; row++) {
+                var cell = this.cells[col][row];
                 this.fireEvent('draw', cell.col, cell.row, cell.bounds);
             }
         }
         this.fireEvent('afterDraw');
-    }
+    };
     /**
      * Call this from p5 mouseClicked() if you want to receive mouseClick cell events
      */
-    mouseClicked() {
+    Grid.prototype.mouseClicked = function () {
         if (this.bounds.contains(mouseX, mouseY)) {
-            let cell = this.cellAt(mouseX, mouseY);
-            this.fireEvent('mouseClick', cell.col, cell.row);
+            var cell = this.cellAt(mouseX, mouseY);
+            this.fireEvent('mouseClicked', cell.col, cell.row);
         }
-    }
+    };
     /**
      * Call this from p5 mouseClicked() if you want to receive mouseIn/mouseOut cell events
      */
-    mouseMoved() {
+    Grid.prototype.mouseMoved = function () {
         if (this.mouseIn && !this.mouseIn.bounds.contains(mouseX, mouseY)) {
             this.fireEvent('mouseOut', this.mouseIn.col, this.mouseIn.row);
             this.mouseIn = null;
@@ -84,92 +86,97 @@ class Grid {
             this.mouseIn = this.cellAt(mouseX, mouseY);
             this.fireEvent('mouseIn', this.mouseIn.col, this.mouseIn.row);
         }
-    }
+    };
     /**
      * Call this from p5 mouseClicked() if you want to receive mousePress cell events
      */
-    mousePressed() {
+    Grid.prototype.mousePressed = function () {
         if (this.bounds.contains(mouseX, mouseY)) {
-            let cell = this.cellAt(mouseX, mouseY);
-            this.fireEvent('mousePress', cell.col, cell.row);
+            var cell = this.cellAt(mouseX, mouseY);
+            this.fireEvent('mousePressed', cell.col, cell.row);
         }
-    }
+    };
     /**
      * Call this from p5 mouseClicked() if you want to receive mouseRelease cell events
      */
-    mouseReleased() {
+    Grid.prototype.mouseReleased = function () {
         if (this.bounds.contains(mouseX, mouseY)) {
-            let cell = this.cellAt(mouseX, mouseY);
-            this.fireEvent('mouseRelease', cell.col, cell.row);
+            var cell = this.cellAt(mouseX, mouseY);
+            this.fireEvent('mouseReleased', cell.col, cell.row);
         }
-    }
+    };
     /**
      * Initialize cells array, col/row are translated to include headers
      */
-    initCells() {
+    Grid.prototype.initCells = function () {
         this.cells = [];
-        for (let col = 0; col < this.cols + this.headerCol; col++) {
+        for (var col = 0; col < this.cols + this.headerCol; col++) {
             this.cells[col] = [];
-            for (let row = 0; row < this.rows + this.headerRow; row++) {
+            for (var row = 0; row < this.rows + this.headerRow; row++) {
                 this.cells[col][row] = new _GridCell(col - this.headerCol, row - this.headerRow);
             }
         }
-    }
+    };
     /**
      * Calculate bounds of each cell and headers
      */
-    recalculateBounds() {
-        for (let col = 0; col < this.cols + this.headerRow; col++) {
-            for (let row = 0; row < this.rows + this.headerRow; row++) {
+    Grid.prototype.recalculateBounds = function () {
+        for (var col = 0; col < this.cols + this.headerRow; col++) {
+            for (var row = 0; row < this.rows + this.headerRow; row++) {
                 this.cells[col][row].bounds = this.cellBounds(col, row);
             }
         }
-    }
+    };
     /**
      * Calculate cell bounds of a col/row (absolute, including headers)
      */
-    cellBounds(col, row) {
+    Grid.prototype.cellBounds = function (col, row) {
         return new Bounds(this.bounds.x + col * this.cellWidth, this.bounds.y + row * this.cellHeight, this.cellWidth, this.cellHeight);
-    }
+    };
     /**
      * calculate column at a given x coordinate
      * @param x x coordinate
      */
-    colAt(x) {
+    Grid.prototype.colAt = function (x) {
         return floor((this.bounds.x + x) / this.cellWidth);
-    }
+    };
     /**
      * calculate row at a given y coordinate
      * @param y y coordinate
      */
-    rowAt(y) {
+    Grid.prototype.rowAt = function (y) {
         return floor((this.bounds.y + y) / this.cellHeight);
-    }
+    };
     /**
      * Find a cell at x,y coordinates
      * @param x
      * @param y
      */
-    cellAt(x, y) {
+    Grid.prototype.cellAt = function (x, y) {
         return this.bounds.contains(x, y) ? this.cells[this.colAt(x)][this.rowAt(y)] : undefined;
-    }
+    };
     /**
      * Fire event to listener
      * @param evt event code
      * @param params varargs callback parameters
      */
-    fireEvent(evt, ...params) {
-        let fn = this.eventHandlers.get(evt);
-        if (fn) {
-            fn(...params);
+    Grid.prototype.fireEvent = function (evt) {
+        var params = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            params[_i - 1] = arguments[_i];
         }
-    }
-}
+        var fn = this.eventHandlers[evt];
+        if (fn) {
+            fn.apply(void 0, params);
+        }
+    };
+    return Grid;
+}());
 /**
  * Generic rectangle bounds class
  */
-class Bounds {
-    constructor(x, y, w, h) {
+var Bounds = /** @class */ (function () {
+    function Bounds(x, y, w, h) {
         this.x = x;
         this.y = y;
         this.w = w;
@@ -178,29 +185,32 @@ class Bounds {
     /**
      * is (x, y) inside this rectangle?
      */
-    contains(x, y) {
+    Bounds.prototype.contains = function (x, y) {
         return x >= this.x && y >= this.y && x < this.x + this.w && y < this.y + this.h;
-    }
+    };
     /**
      * center of the rectangle
      */
-    center() {
+    Bounds.prototype.center = function () {
         return createVector(floor(this.x + this.w / 2), floor(this.y + this.h / 2));
-    }
-}
+    };
+    return Bounds;
+}());
 /**
  * private Grid cell class
  */
-class _GridCell {
+var _GridCell = /** @class */ (function () {
     /**
      * col/row are "logical" values, -1 being header cells
      * @param col logical column
      * @param row logical row
      * @param bounds bounds of the cell
      */
-    constructor(col, row, bounds = null) {
+    function _GridCell(col, row, bounds) {
+        if (bounds === void 0) { bounds = null; }
         this.col = col;
         this.row = row;
         this.bounds = bounds;
     }
-}
+    return _GridCell;
+}());

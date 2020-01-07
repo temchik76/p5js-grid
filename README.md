@@ -60,6 +60,8 @@ function mouseClicked() {
 Events
 
 - `draw`: `(col, row, bounds)`
+- `beforeDraw`
+- `afterDraw`
 - `mouseClicked`: `(col, row)`
 - `mouseIn`: `(col, row)`
 - `mouseOut`: `(col, row)`

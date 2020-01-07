@@ -18,7 +18,7 @@ class Grid {
   private cellWidth: number;
   private cellHeight: number;
   private cells: _GridCell[][];
-  private eventHandlers: Map<string, Function>;
+  private eventHandlers: object;
   private mouseIn: _GridCell = null;
 
   /**
@@ -37,7 +37,7 @@ class Grid {
     this.cellWidth = floor(this.bounds.w / (this.cols + this.headerCol));
     this.cellHeight = floor(this.bounds.h / (this.rows + this.headerRow));
 
-    this.eventHandlers = new Map<string, Function>();
+    this.eventHandlers = {};
 
     this.initCells();
     this.recalculateBounds();
@@ -50,7 +50,7 @@ class Grid {
    * @param fn function
    */
   on(evt: string, fn: Function): Grid {
-    this.eventHandlers.set(evt, fn);
+    this.eventHandlers[evt] = fn;
     return this;
   }
 
@@ -191,7 +191,7 @@ class Grid {
    * @param params varargs callback parameters
    */
   private fireEvent(evt: string, ...params: any[]): void {
-    let fn: Function = this.eventHandlers.get(evt);
+    let fn: Function = this.eventHandlers[evt];
     if (fn) {
       fn(...params);
     }
