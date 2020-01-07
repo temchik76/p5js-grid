@@ -17,16 +17,11 @@ function drawCell(col, row, bounds) {
   // if you enabled headers then corresponding col / row will be -1 for headers  
 }
 
-function cellClicked(col, row) {
-  
-}
-
 function setup() {
   ...
   grid = new Grid(6 /*columns*/, 6 /* rows */, new Bounds(0, 0, width, height), true /*enable header row*/, true /*enable header column*/)
-            .on('draw', drawCell)
-            .on('mouseClick', cellClicked);
-   ...
+            .on('draw', drawCell);
+ ...
 }
 ```
 
