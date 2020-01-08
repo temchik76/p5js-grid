@@ -1,4 +1,5 @@
 /// <reference path="../../node_modules/@types/p5/global.d.ts"/>
+/// <reference path="../../src/ts/grid.ts"/>
 
 var grid;
 
@@ -48,7 +49,8 @@ function mouseReleased() {
 function setup() {
   createCanvas(420, 420);
 
-  grid = new Grid(6, 6, new Bounds(0, 0, 120, 120), drawGridCell);
+  grid = new Grid(6, 6, new Bounds(0, 0, 120, 120))
+    .on('draw', drawGridCell);
 }
 
 function draw() {

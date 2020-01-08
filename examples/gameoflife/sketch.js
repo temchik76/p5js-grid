@@ -1,4 +1,5 @@
 /// <reference path="../../node_modules/@types/p5/global.d.ts"/>
+/// <reference path="../../src/ts/grid.ts"/>
 
 const GRID_SIZE = 60;
 
@@ -7,7 +8,7 @@ var grid;
 // cells, 1 = alive, 0 = dead
 let cells = [];
 
-function drawGridCell(col, row, bounds) {
+function drawCell(col, row, bounds) {
   let val = cell(col, row);
 
   if (val) {
@@ -69,7 +70,8 @@ function tick() {
 function setup() {
   createCanvas(600, 600);
 
-  grid = new Grid(GRID_SIZE, GRID_SIZE, new Bounds(0, 0, width, height), drawGridCell);
+  grid = new Grid(GRID_SIZE, GRID_SIZE, new Bounds(0, 0, width, height))
+    .on('draw', drawCell);
 
   cells = new Array(GRID_SIZE).fill(undefined).map(() => new Array(GRID_SIZE).fill(undefined).map(() => 
               floor(random((2)))));

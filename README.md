@@ -3,36 +3,25 @@
 Include grid.js in your sketch html file
 
 ```
-<script src="https://cdn.jsdelivr.net/gh/temchik76/p5js-grid@1.0.1/grid.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/temchik76/p5js-grid@2.0.1/dist/grid.js"></script>
 ```
 
-define cell and (optionally) headers draw functions
+define functions and register event handlers
 
-```
-function drawHeaderRow(pos, bounds) {
-}
-```
-
-```
-function drawHeaderCol(pos, bounds) {
-}
-```
-
-```
-function drawCell(col, row, bounds) {
-}
-```
-
-create the grid in `setup()` passing the draw functions. Omitting header draw functions will disable header row/column
+create the grid in `setup()`
 
 ```
 let grid;
 
+function drawCell(col, row, bounds) {
+  // if you enabled headers then corresponding col / row will be -1 for headers  
+}
+
 function setup() {
   ...
-  grid = new Grid(6, 6, new Bounds(0, 0, width, height),
-                 drawCell, drawHeaderRow, drawHeaderCol);
-  ...
+  grid = new Grid(6 /*columns*/, 6 /* rows */, new Bounds(0, 0, width, height), true /*enable header row*/, true /*enable header column*/)
+            .on('draw', drawCell);
+ ...
 }
 ```
 
@@ -45,5 +34,31 @@ function draw() {
   ...
 }
 ```
+
+in order to receive cell mouse event you need to call the corresponding functions from your sketch:
+
+```
+function cellClicked(col, row) {
+}
+
+function setup() {
+  ...
+  grid.on('mouseClicked', cellClicked);
+  ...
+}
+
+function mouseClicked() {
+  grid.mouseClicked(mouseX, mouseY);
+}
+```
+
+Events
+
+- `draw`: `(col, row, bounds)` - called for each cell, including headers
+- `mouseClicked`: `(col, row)`
+- `mouseIn`: `(col, row)`
+- `mouseOut`: `(col, row)`
+- `mousePressed`: `(col, row)`
+- `mouseReleased`: `(col, row)`
 
 see examples
