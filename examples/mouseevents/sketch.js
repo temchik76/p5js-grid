@@ -31,11 +31,11 @@ function draw() {
 }
 
 function mouseMoved() {
-  grid.mouseMoved();
+  grid.mouseMoved(mouseX, mouseY);
 }
 
 function mouseClicked() {
-  grid.mouseClicked();
+  grid.mouseClicked(mouseX, mouseY);
 }
 
 function drawCell(col, row, bounds) {

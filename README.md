@@ -3,7 +3,7 @@
 Include grid.js in your sketch html file
 
 ```
-<script src="https://cdn.jsdelivr.net/gh/temchik76/p5js-grid@2.0.0/dist/grid.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/temchik76/p5js-grid@2.0.1/dist/grid.js"></script>
 ```
 
 define functions and register event handlers
@@ -48,15 +48,13 @@ function setup() {
 }
 
 function mouseClicked() {
-  grid.mouseClicked();
+  grid.mouseClicked(mouseX, mouseY);
 }
 ```
 
 Events
 
 - `draw`: `(col, row, bounds)` - called for each cell, including headers
-- `beforeDraw` - called before drawing any cells
-- `afterDraw` - called after drawing all cells
 - `mouseClicked`: `(col, row)`
 - `mouseIn`: `(col, row)`
 - `mouseOut`: `(col, row)`

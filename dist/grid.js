@@ -6,7 +6,6 @@
  * @author temchik76
  * @url https://github.com/temchik76/p5js-grid
  */
-/// <reference path="../../node_modules/@types/p5/global.d.ts"/>
 /**
  * Grid
  */
@@ -29,8 +28,8 @@ var Grid = /** @class */ (function () {
         this.mouseIn = null;
         this.headerRow = enableHeaderRow ? 1 : 0;
         this.headerCol = enableHeaderCol ? 1 : 0;
-        this.cellWidth = floor(this.bounds.w / (this.cols + this.headerCol));
-        this.cellHeight = floor(this.bounds.h / (this.rows + this.headerRow));
+        this.cellWidth = Math.floor(this.bounds.w / (this.cols + this.headerCol));
+        this.cellHeight = Math.floor(this.bounds.h / (this.rows + this.headerRow));
         this.eventHandlers = {};
         this.initCells();
         this.recalculateBounds();
@@ -68,40 +67,40 @@ var Grid = /** @class */ (function () {
     /**
      * Call this from p5 mouseClicked() if you want to receive mouseClick cell events
      */
-    Grid.prototype.mouseClicked = function () {
-        if (this.bounds.contains(mouseX, mouseY)) {
-            var cell = this.cellAt(mouseX, mouseY);
+    Grid.prototype.mouseClicked = function (x, y) {
+        if (this.bounds.contains(x, y)) {
+            var cell = this.cellAt(x, y);
             this.fireEvent('mouseClicked', cell.col, cell.row);
         }
     };
     /**
      * Call this from p5 mouseMoved() if you want to receive mouseIn/mouseOut cell events
      */
-    Grid.prototype.mouseMoved = function () {
-        if (this.mouseIn && !this.mouseIn.bounds.contains(mouseX, mouseY)) {
+    Grid.prototype.mouseMoved = function (x, y) {
+        if (this.mouseIn && !this.mouseIn.bounds.contains(x, y)) {
             this.fireEvent('mouseOut', this.mouseIn.col, this.mouseIn.row);
             this.mouseIn = null;
         }
-        if (this.bounds.contains(mouseX, mouseY) && !this.mouseIn) {
-            this.mouseIn = this.cellAt(mouseX, mouseY);
+        if (this.bounds.contains(x, y) && !this.mouseIn) {
+            this.mouseIn = this.cellAt(x, y);
             this.fireEvent('mouseIn', this.mouseIn.col, this.mouseIn.row);
         }
     };
     /**
      * Call this from p5 mousePressed() if you want to receive mousePress cell events
      */
-    Grid.prototype.mousePressed = function () {
-        if (this.bounds.contains(mouseX, mouseY)) {
-            var cell = this.cellAt(mouseX, mouseY);
+    Grid.prototype.mousePressed = function (x, y) {
+        if (this.bounds.contains(x, y)) {
+            var cell = this.cellAt(x, y);
             this.fireEvent('mousePressed', cell.col, cell.row);
         }
     };
     /**
      * Call this from p5 mouseReleased() if you want to receive mouseRelease cell events
      */
-    Grid.prototype.mouseReleased = function () {
-        if (this.bounds.contains(mouseX, mouseY)) {
-            var cell = this.cellAt(mouseX, mouseY);
+    Grid.prototype.mouseReleased = function (x, y) {
+        if (this.bounds.contains(x, y)) {
+            var cell = this.cellAt(x, y);
             this.fireEvent('mouseReleased', cell.col, cell.row);
         }
     };
@@ -138,14 +137,14 @@ var Grid = /** @class */ (function () {
      * @param x x coordinate
      */
     Grid.prototype.colAt = function (x) {
-        return floor((this.bounds.x + x) / this.cellWidth);
+        return Math.floor((this.bounds.x + x) / this.cellWidth);
     };
     /**
      * calculate row at a given y coordinate
      * @param y y coordinate
      */
     Grid.prototype.rowAt = function (y) {
-        return floor((this.bounds.y + y) / this.cellHeight);
+        return Math.floor((this.bounds.y + y) / this.cellHeight);
     };
     /**
      * Find a cell at x,y coordinates
@@ -187,12 +186,6 @@ var Bounds = /** @class */ (function () {
      */
     Bounds.prototype.contains = function (x, y) {
         return x >= this.x && y >= this.y && x < this.x + this.w && y < this.y + this.h;
-    };
-    /**
-     * center of the rectangle
-     */
-    Bounds.prototype.center = function () {
-        return createVector(floor(this.x + this.w / 2), floor(this.y + this.h / 2));
     };
     return Bounds;
 }());
