@@ -2,7 +2,7 @@
  * grid.js
  * Grid for p5js
  *
- * @version 2.0.0
+ * @version 2.0.1
  * @author temchik76
  * @url https://github.com/temchik76/p5js-grid
  */
@@ -55,14 +55,12 @@ var Grid = /** @class */ (function () {
      * Draw the grid
      */
     Grid.prototype.draw = function () {
-        this.fireEvent('beforeDraw');
         for (var col = 0; col < this.cols + this.headerCol; col++) {
             for (var row = 0; row < this.rows + this.headerRow; row++) {
                 var cell = this.cells[col][row];
                 this.fireEvent('draw', cell.col, cell.row, cell.bounds);
             }
         }
-        this.fireEvent('afterDraw');
     };
     /**
      * Call this from p5 mouseClicked() if you want to receive mouseClick cell events
