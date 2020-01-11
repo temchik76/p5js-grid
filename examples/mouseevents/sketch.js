@@ -1,5 +1,5 @@
 /// <reference path="../../node_modules/@types/p5/global.d.ts"/>
-/// <reference path="../../src/ts/grid.ts"/>
+/// <reference path="../../dist/grid.d.ts"/>
 
 var grid;
 var highlighted = null;
